@@ -329,5 +329,5 @@ data:
   STATSD_ADDR: {{ . }}
   {{- end }}
   {{- range $k, $v := .Values.mastodon.extraEnvVars }}
-  {{ $k }}: {{ $v }}
+  {{ $k }}: {{ quote $v }}
   {{- end -}}
