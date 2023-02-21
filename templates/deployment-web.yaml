@@ -37,8 +37,8 @@ spec:
       securityContext:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- if (not .Values.mastodon.s3.enabled) }}
       volumes:
+      {{- if (not .Values.mastodon.s3.enabled) }}
         - name: assets
           persistentVolumeClaim:
             claimName: {{ template "mastodon.fullname" . }}-assets
@@ -46,6 +46,7 @@ spec:
           persistentVolumeClaim:
             claimName: {{ template "mastodon.fullname" . }}-system
       {{- end }}
+      {{- include "mastodon.statsdExporterVolume" $ | indent 8 }}
       containers:
         - name: {{ .Chart.Name }}-web
           {{- with (default .Values.securityContext .Values.mastodon.web.securityContext) }}
@@ -141,6 +142,7 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+        {{- include "mastodon.statsdExporterContainer" $ | indent 8 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
