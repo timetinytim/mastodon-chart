@@ -38,6 +38,7 @@ spec:
         checksum/config-secrets: {{ include ( print $.Template.BasePath "/secret-smtp.yaml" ) $context | sha256sum | quote }}
       labels:
         {{- include "mastodon.selectorLabels" $context | nindent 8 }}
+        {{- include "mastodon.statsdExporterLabels" $context | nindent 8 }}
         app.kubernetes.io/component: sidekiq-{{ .name }}
         app.kubernetes.io/part-of: rails
     spec:

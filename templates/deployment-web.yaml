@@ -25,6 +25,7 @@ spec:
         {{- include "mastodon.rollingPodAnnotations" . | nindent 8 }}
       labels:
         {{- include "mastodon.selectorLabels" . | nindent 8 }}
+        {{- include "mastodon.statsdExporterLabels" . | nindent 8 }}
         app.kubernetes.io/component: web
         app.kubernetes.io/part-of: rails
     spec:

@@ -41,3 +41,14 @@
 {{- end }}
 {{- end }}
 {{- end }}
+
+{{/*
+  Labels added to every statsd_exporter-enabled pod
+*/}}
+{{- define "mastodon.statsdExporterLabels" }}
+{{- with .Values.mastodon.metrics.statsd }}
+{{- if and .exporter.enabled (not .address) }}
+mastodon/statsd-exporter: "true"
+{{- end }}
+{{- end }}
+{{- end }}
