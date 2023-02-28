@@ -49,6 +49,11 @@ spec:
             claimName: {{ template "mastodon.fullname" . }}-system
       {{- end }}
       {{- include "mastodon.statsdExporterVolume" $ | indent 8 }}
+      {{- if .Values.mastodon.customDatabaseConfigYml.configMapRef.name }}
+        - name: config-database-yml
+          configMap:
+            name: {{ .Values.mastodon.customDatabaseConfigYml.configMapRef.name }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}-web
           {{- with (default .Values.securityContext .Values.mastodon.web.securityContext) }}
@@ -123,12 +128,17 @@ spec:
                   name: {{ .Values.mastodon.deepl.apiKeySecretRef.name }}
                   key: {{ .Values.mastodon.deepl.apiKeySecretRef.key }}
             {{- end }}
-          {{- if (not .Values.mastodon.s3.enabled) }}
           volumeMounts:
+          {{- if (not .Values.mastodon.s3.enabled) }}
             - name: assets
               mountPath: /opt/mastodon/public/assets
             - name: system
               mountPath: /opt/mastodon/public/system
+          {{- end }}
+          {{- if .Values.mastodon.customDatabaseConfigYml.configMapRef.name }}
+            - name: config-database-yml
+              mountPath: /opt/mastodon/config/database.yml
+              subPath: {{ .Values.mastodon.customDatabaseConfigYml.configMapRef.key }}
           {{- end }}
           ports:
             - name: http

@@ -66,6 +66,11 @@ spec:
             claimName: {{ template "mastodon.fullname" $context }}-system
       {{- end }}
       {{- include "mastodon.statsdExporterVolume" $ | indent 8 }}
+      {{- if $context.Values.mastodon.customDatabaseConfigYml.configMapRef.name }}
+        - name: config-database-yml
+          configMap:
+            name: {{ $context.Values.mastodon.customDatabaseConfigYml.configMapRef.name }}
+      {{- end }}
       containers:
         - name: {{ $context.Chart.Name }}
           securityContext:
@@ -135,12 +140,17 @@ spec:
                   name: {{ $context.Values.mastodon.deepl.apiKeySecretRef.name }}
                   key: {{ $context.Values.mastodon.deepl.apiKeySecretRef.key }}
             {{- end }}
-          {{- if (not $context.Values.mastodon.s3.enabled) }}
           volumeMounts:
+          {{- if (not $context.Values.mastodon.s3.enabled) }}
             - name: assets
               mountPath: /opt/mastodon/public/assets
             - name: system
               mountPath: /opt/mastodon/public/system
+          {{- end }}
+          {{- if $context.Values.mastodon.customDatabaseConfigYml.configMapRef.name }}
+            - name: config-database-yml
+              mountPath: /opt/mastodon/config/database.yml
+              subPath: {{ $context.Values.mastodon.customDatabaseConfigYml.configMapRef.key }}
           {{- end }}
           resources:
             {{- toYaml (default (default $context.Values.resources $context.Values.mastodon.sidekiq.resources) .resources) | nindent 12 }}
