@@ -337,6 +337,11 @@ data:
   {{- else if .Values.mastodon.metrics.statsd.exporter.enabled }}
   STATSD_ADDR: localhost:9125
   {{- end }}
+
+  {{- if .Values.mastodon.deepl.enabled }}
+  DEEPL_PLAN: {{ .Values.mastodon.deepl.plan }}
+  {{- end }}
+
   {{- range $k, $v := .Values.mastodon.extraEnvVars }}
   {{ $k }}: {{ quote $v }}
-  {{- end -}}
+  {{- end }}
