@@ -49,10 +49,10 @@ spec:
             claimName: {{ template "mastodon.fullname" . }}-system
       {{- end }}
       {{- include "mastodon.statsdExporterVolume" $ | indent 8 }}
-      {{- if .Values.mastodon.customDatabaseConfigYml.configMapRef.name }}
+      {{- if .Values.mastodon.web.customDatabaseConfigYml.configMapRef.name }}
         - name: config-database-yml
           configMap:
-            name: {{ .Values.mastodon.customDatabaseConfigYml.configMapRef.name }}
+            name: {{ .Values.mastodon.web.customDatabaseConfigYml.configMapRef.name }}
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}-web
@@ -135,10 +135,10 @@ spec:
             - name: system
               mountPath: /opt/mastodon/public/system
           {{- end }}
-          {{- if .Values.mastodon.customDatabaseConfigYml.configMapRef.name }}
+          {{- if .Values.mastodon.web.customDatabaseConfigYml.configMapRef.name }}
             - name: config-database-yml
               mountPath: /opt/mastodon/config/database.yml
-              subPath: {{ .Values.mastodon.customDatabaseConfigYml.configMapRef.key }}
+              subPath: {{ .Values.mastodon.web.customDatabaseConfigYml.configMapRef.key }}
           {{- end }}
           ports:
             - name: http
