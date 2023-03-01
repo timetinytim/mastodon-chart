@@ -75,7 +75,7 @@ spec:
         - name: {{ $context.Chart.Name }}
           securityContext:
             {{- toYaml $context.Values.mastodon.sidekiq.securityContext | nindent 12 }}
-          image: "{{ $context.Values.image.repository }}:{{ $context.Values.image.tag | default $context.Chart.AppVersion }}"
+          image: "{{ coalesce (dig "image" "repository" false .) $context.Values.image.repository }}:{{ coalesce (dig "image" "tag" false .) $context.Values.image.tag $context.Chart.AppVersion }}"
           imagePullPolicy: {{ $context.Values.image.pullPolicy }}
           command:
             - bundle
