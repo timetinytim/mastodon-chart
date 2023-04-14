@@ -1,4 +1,4 @@
-{{- if .Values.mastodon.hooks.assetsPrecompile.enabled -}}
+{{- if .Values.mastodon.hooks.dbMigrate.enabled -}}
 apiVersion: batch/v1
 kind: Job
 metadata:
