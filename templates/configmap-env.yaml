@@ -342,6 +342,10 @@ data:
   DEEPL_PLAN: {{ .Values.mastodon.deepl.plan }}
   {{- end }}
 
+  {{- if .Values.mastodon.hcaptcha.enabled }}
+  HCAPTCHA_SITE_KEY: {{ .Values.mastodon.hcaptcha.siteId }}
+  {{- end }}
+
   {{- range $k, $v := .Values.mastodon.extraEnvVars }}
   {{ $k }}: {{ quote $v }}
   {{- end }}
