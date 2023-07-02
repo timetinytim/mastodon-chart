@@ -247,6 +247,13 @@ mastodon:
         name:
         key:
 
+    # Web pods that only face the primary SQL node.
+    # Useful when there are read-replicas in place to avoid race conditions.
+    # Should be used in conjunction with customDatabaseConfigYml
+    primaryOnly:
+      enabled: false
+      replicas: 2
+
   metrics:
     statsd:
       # -- Enable statsd publishing via STATSD_ADDR environment variable
