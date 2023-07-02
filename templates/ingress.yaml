@@ -66,6 +66,19 @@ spec:
               {{- end }}
             {{- if or ($.Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress") (not ($.Capabilities.APIVersions.Has "networking.k8s.io/v1beta1/Ingress")) }}
             pathType: Prefix
+          - path: /api/v1/accounts/verify_credentials
+            backend:
+              {{- if or ($.Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress") (not ($.Capabilities.APIVersions.Has "networking.k8s.io/v1beta1/Ingress")) }}
+              service:
+                name: {{ $fullName }}-web-primary
+                port:
+                  number: {{ $webPort }}
+              {{- else }}
+              serviceName: {{ $fullName }}-web-primary
+              servicePort: {{ $webPort }}
+              {{- end }}
+            {{- if or ($.Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress") (not ($.Capabilities.APIVersions.Has "networking.k8s.io/v1beta1/Ingress")) }}
+            pathType: Prefix
           {{- end }}
           {{- if not $.Values.ingress.streaming.enabled }}
           - path: {{ .path }}api/v1/streaming

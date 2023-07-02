@@ -51,11 +51,6 @@ spec:
             claimName: {{ template "mastodon.fullname" . }}-system
       {{- end }}
       {{- include "mastodon.statsdExporterVolume" $ | indent 8 }}
-      {{- if .Values.mastodon.web.customDatabaseConfigYml.configMapRef.name }}
-        - name: config-database-yml
-          configMap:
-            name: {{ .Values.mastodon.web.customDatabaseConfigYml.configMapRef.name }}
-      {{- end }}
       containers:
         - name: {{ .Chart.Name }}-web-primary
           {{- with (default .Values.securityContext .Values.mastodon.web.securityContext) }}
