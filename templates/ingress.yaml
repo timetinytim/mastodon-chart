@@ -52,7 +52,7 @@ spec:
             {{- if or ($.Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress") (not ($.Capabilities.APIVersions.Has "networking.k8s.io/v1beta1/Ingress")) }}
             pathType: Prefix
           {{- end }}
-          {{- if .Values.mastodon.web.primaryOnly.enabled}}
+          {{- if $.Values.mastodon.web.primaryOnly.enabled}}
           - path: /oauth
             backend:
               {{- if or ($.Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress") (not ($.Capabilities.APIVersions.Has "networking.k8s.io/v1beta1/Ingress")) }}
@@ -66,6 +66,7 @@ spec:
               {{- end }}
             {{- if or ($.Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress") (not ($.Capabilities.APIVersions.Has "networking.k8s.io/v1beta1/Ingress")) }}
             pathType: Prefix
+            {{- end }}
           - path: /api/v1/accounts/verify_credentials
             backend:
               {{- if or ($.Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress") (not ($.Capabilities.APIVersions.Has "networking.k8s.io/v1beta1/Ingress")) }}
@@ -79,6 +80,7 @@ spec:
               {{- end }}
             {{- if or ($.Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress") (not ($.Capabilities.APIVersions.Has "networking.k8s.io/v1beta1/Ingress")) }}
             pathType: Prefix
+            {{- end }}
           {{- end }}
           {{- if not $.Values.ingress.streaming.enabled }}
           - path: {{ .path }}api/v1/streaming
