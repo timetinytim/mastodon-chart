@@ -104,7 +104,7 @@ spec:
                   name: {{ template "mastodon.postgresql.secretName" $context }}
                   key: password
             {{- if $context.Values.postgresql.readReplica.auth.existingSecret }}
-            - name: "DB_REPLICA_PASS"
+            - name: "REPLICA_DB_PASS"
               valueFrom:
                 secretKeyRef:
                   name: {{ $context.Values.postgresql.readReplica.auth.existingSecret }}
