@@ -254,6 +254,16 @@ mastodon:
       enabled: false
       replicas: 2
 
+  # Additional settings for the cache buster.
+  cacheBuster:
+    enabled: true
+    httpMethod: "GET"
+    # If the cache service requires authentication, specify the header name and
+    # secret/token here.
+    authHeader:
+    authToken:
+      existingSecret:
+
   metrics:
     statsd:
       # -- Enable statsd publishing via STATSD_ADDR environment variable

@@ -139,6 +139,13 @@ spec:
                   name: {{ .Values.mastodon.hcaptcha.secretKeySecretRef.name }}
                   key: {{ .Values.mastodon.hcaptcha.secretKeySecretRef.key }}
             {{- end }}
+            {{- if .Values.mastodon.cacheBuster.authToken.existingSecret }}
+            - name: CACHE_BUSTER_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mastodon.cacheBuster.authToken.existingSecret }}
+                  key: password
+            {{- end }}
           volumeMounts:
           {{- if (not .Values.mastodon.s3.enabled) }}
             - name: assets
