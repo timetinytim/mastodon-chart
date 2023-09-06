@@ -256,7 +256,7 @@ mastodon:
 
   # Additional settings for the cache buster.
   cacheBuster:
-    enabled: false
+    enabled: "false"
     httpMethod: "GET"
     # If the cache service requires authentication, specify the header name and
     # secret/token here.
