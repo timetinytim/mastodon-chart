@@ -563,3 +563,9 @@ affinity: {}
 # want to spread each deployment independently, or override topologySpreadConstraints
 # for each deployment
 topologySpreadConstraints: {}
+
+# Default volume mounts for all pods
+volumeMounts: []
+
+# Default volumes for all pods
+volumes: []

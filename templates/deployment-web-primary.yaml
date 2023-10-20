@@ -51,6 +51,9 @@ spec:
             claimName: {{ template "mastodon.fullname" . }}-system
       {{- end }}
       {{- include "mastodon.statsdExporterVolume" $ | indent 8 }}
+      {{- with .Values.volumes }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}-web-primary
           {{- with (default .Values.securityContext .Values.mastodon.web.securityContext) }}
@@ -152,6 +155,9 @@ spec:
               mountPath: /opt/mastodon/public/assets
             - name: system
               mountPath: /opt/mastodon/public/system
+          {{- end }}
+          {{- with .Values.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
           ports:
             - name: http
